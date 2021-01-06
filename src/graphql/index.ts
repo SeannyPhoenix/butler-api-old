@@ -5,38 +5,36 @@ import {
   GraphQLNamedType,
   GraphQLObjectType,
   GraphQLSchema,
-  GraphQLString,
 } from 'graphql';
 
-import {DBAccountType} from '../db/account/graphql.js';
-import {currentAccount} from '../resolvers/account.js';
+import {graphqlTypes} from '../db/index.js';
+import {accountQueries, accountMutations} from '../queries/account.js';
 
 // For each Mongoose schema, create a GraphQL type
 const types: GraphQLNamedType[] = [
-  DBAccountType,
+  graphqlTypes.DBAccountType,
 ];
 
 
 const query = new GraphQLObjectType({
-  name: 'api',
+  name: 'query',
   fields: {
-    account: {
-      type: DBAccountType,
-      args: {
-        _id: {
-          type: GraphQLString,
-        },
-      },
-      resolve: currentAccount,
-    },
+    ...accountQueries,
   },
 });
 
+const mutation = new GraphQLObjectType({
+  name: 'mutation',
+  fields: {
+    ...accountMutations,
+  },
+});
 
 // Create GraphQL schema from types, queries, and
 const schema = new GraphQLSchema({
   types,
   query,
+  mutation,
 });
 
 export const graphqlServer = graphqlHTTP({schema});

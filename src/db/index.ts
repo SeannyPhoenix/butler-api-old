@@ -1,10 +1,10 @@
-import {connect as mongooseConnect} from 'mongoose';
-import {Account} from './account/mongoose.js';
-import {Measurement} from './measurement/mongoose.js';
+import mongoose from 'mongoose';
+import {Account, DBAccountType} from './account.js';
+import {Measurement, DBMeasurementType} from './measurement.js';
 
 const mongodbURL: string = process.env.MONGODB_URL || '';
 
-mongooseConnect(mongodbURL, {
+mongoose.connect(mongodbURL, {
   useNewUrlParser: true,
   useFindAndModify: false,
   useCreateIndex: true,
@@ -16,9 +16,12 @@ mongooseConnect(mongodbURL, {
       console.error(error);
     });
 
-const db = {
+export const db = {
   Measurement,
   Account,
 };
 
-export default db;
+export const graphqlTypes = {
+  DBAccountType,
+  DBMeasurementType,
+};
