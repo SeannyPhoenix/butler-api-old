@@ -9,9 +9,21 @@ const server = async () => {
   const PORT = process.env.PORT || 2000;
   const app = express();
 
+  // configure CORS headers
+  app.use((req, res, next) => {
+    res.header('Access-Control-Allow-Origin', 'http://localhost:3000');
+    res.header('Access-Control-Allow-Headers', '*');
+    next();
+  });
+
+  // any OPTIONS request will return 200
+  app.options('*', (req, res) => {
+    res.sendStatus(200);
+  });
+
   // all requests to the api go through our graphql server middleware
   const {graphqlServer} = await import('./graphql/index.js');
-  app.use('/api/v1', graphqlServer);
+  app.use('/api', graphqlServer);
 
   // we really don't want people accessing this site through a browser
   // so redirect all other paths to my portfolio for now
