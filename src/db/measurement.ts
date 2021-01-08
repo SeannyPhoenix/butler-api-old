@@ -18,17 +18,17 @@ export const MeasurementSchema = new Schema({
     required: true,
     default: uuid,
   },
-  unit: {
+  unitType: {
     type: String,
     required: true,
     enum: UNIT_TYPES,
   },
-  naturalQuantity: {
-    type: Number,
-    required: true,
-  },
   naturalUnit: {
     type: String,
+    required: true,
+  },
+  naturalQuantity: {
+    type: Number,
     required: true,
   },
   baseUnit: {
@@ -44,7 +44,7 @@ export const MeasurementSchema = new Schema({
 export const Measurement = model('Measurement', MeasurementSchema);
 
 // set up the graphql schema
-export const DBMeasurementType = new GraphQLObjectType({
+export const GQLMeasurement = new GraphQLObjectType({
   name: 'Measurement',
   fields: {
     _id: {
@@ -53,7 +53,7 @@ export const DBMeasurementType = new GraphQLObjectType({
         return parent._id;
       },
     },
-    unit: {
+    unitType: {
       type: GraphQLString,
       resolve: (parent) => {
         return parent.unit;

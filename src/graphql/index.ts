@@ -1,20 +1,14 @@
-/* eslint-disable require-jsdoc */
 import {graphqlHTTP} from 'express-graphql';
-
 import {
   GraphQLNamedType,
   GraphQLObjectType,
   GraphQLSchema,
 } from 'graphql';
-
-import {graphqlTypes} from '../db/index.js';
+import {GQLSchemaTypes} from '../db/index.js';
 import {accountQueries, accountMutations} from '../queries/account.js';
 
 // For each Mongoose schema, create a GraphQL type
-const types: GraphQLNamedType[] = [
-  graphqlTypes.DBAccountType,
-];
-
+const types: GraphQLNamedType[] = GQLSchemaTypes;
 
 const query = new GraphQLObjectType({
   name: 'query',

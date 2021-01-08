@@ -1,11 +1,11 @@
 import {GraphQLString} from 'graphql';
-import {graphqlTypes} from '../db/index.js';
+import {GQLAccount} from '../db/account.js';
 import {db} from '../db/index.js';
 
 export const accountQueries = {
   // find any account by id
   account: {
-    type: graphqlTypes.DBAccountType,
+    type: GQLAccount,
     args: {
       id: {
         type: GraphQLString,
@@ -24,8 +24,8 @@ export const accountQueries = {
   },
 
   // find account of logged-in user
-  myAccount: {
-    type: graphqlTypes.DBAccountType,
+  currentAccount: {
+    type: GQLAccount,
     resolve: async (p: any, args: any) => {
       try {
         const account = await db.Account.findById(
@@ -42,7 +42,7 @@ export const accountQueries = {
 
 export const accountMutations = {
   createAccount: {
-    type: graphqlTypes.DBAccountType,
+    type: GQLAccount,
     args: {
       name: {
         type: GraphQLString,
@@ -63,7 +63,7 @@ export const accountMutations = {
   },
 
   updateAccount: {
-    type: graphqlTypes.DBAccountType,
+    type: GQLAccount,
     args: {
       id: {
         type: GraphQLString,
@@ -90,7 +90,7 @@ export const accountMutations = {
   },
 
   deleteAccount: {
-    type: graphqlTypes.DBAccountType,
+    type: GQLAccount,
     args: {
       id: {
         type: GraphQLString,

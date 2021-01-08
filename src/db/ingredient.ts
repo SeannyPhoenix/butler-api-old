@@ -1,10 +1,11 @@
 import {GraphQLObjectType, GraphQLString} from 'graphql';
 import mongoose from 'mongoose';
 import {v4 as uuid} from 'uuid';
+import {GQLMeasurement, MeasurementSchema} from './measurement';
 const {Schema, model} = mongoose;
 
 // Sert up the mongoose schema
-export const AccountSchema = new Schema({
+export const IngredientSchema = new Schema({
   _id: {
     type: String,
     required: true,
@@ -15,17 +16,20 @@ export const AccountSchema = new Schema({
     maxlength: 30,
     required: true,
   },
-  email: {
+  measurement: {
+    // embed the measurement document in the ingredient document
+    type: MeasurementSchema,
+  },
+  info: {
     type: String,
-    required: true,
   },
 });
 
-export const Account = model('Account', AccountSchema);
+export const Ingredient = model('Ingredient', IngredientSchema);
 
 // set up the graphql schema
-export const GQLAccount = new GraphQLObjectType({
-  name: 'Account',
+export const DBIngredientType = new GraphQLObjectType({
+  name: 'Ingredient',
   fields: {
     id: {
       type: GraphQLString,
@@ -39,10 +43,10 @@ export const GQLAccount = new GraphQLObjectType({
         return parent.name;
       },
     },
-    email: {
-      type: GraphQLString,
+    measurement: {
+      type: GQLMeasurement,
       resolve: (parent) => {
-        return parent.email;
+        return parent.measurement;
       },
     },
   },

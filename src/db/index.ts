@@ -1,6 +1,6 @@
 import mongoose from 'mongoose';
-import {Account, DBAccountType} from './account.js';
-import {Measurement, DBMeasurementType} from './measurement.js';
+import {Account, GQLAccount} from './account.js';
+import {Measurement, GQLMeasurement} from './measurement.js';
 
 const mongodbURL: string = process.env.MONGODB_URL || '';
 
@@ -21,7 +21,7 @@ export const db = {
   Account,
 };
 
-export const graphqlTypes = {
-  DBAccountType,
-  DBMeasurementType,
-};
+export const GQLSchemaTypes = [
+  GQLAccount,
+  GQLMeasurement,
+];
